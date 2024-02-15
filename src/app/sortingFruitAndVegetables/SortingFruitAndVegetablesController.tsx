@@ -1,6 +1,7 @@
 import { IItem, ITEM_TYPE } from "~/pages";
 import ItemListPresenter from "./presenters/ItemListPresenter";
 import { use, useCallback, useEffect, useMemo, useState } from "react";
+import useGetUsers from "~/hooks/useGetUsers";
 
 interface IPropsSortingFruitAndVegetablesController {
   ssgProps: { itemList: IItem[] };
@@ -13,6 +14,8 @@ const SortingFruitAndVegetablesController = (
     ssgProps: { itemList },
   } = props;
 
+  const { departments } = useGetUsers();
+  console.log("Departments Data", departments);
   const [fruitAndVegetableList, setFruitAndVegetableList] = useState<IItem[]>(
     []
   );
@@ -22,7 +25,6 @@ const SortingFruitAndVegetablesController = (
     [key: string]: NodeJS.Timeout;
   }>({});
 
-  console.log(timeoutIds);
   useEffect(() => {
     if (itemList) {
       setFruitAndVegetableList(itemList);
@@ -100,6 +102,7 @@ const SortingFruitAndVegetablesController = (
       </section>
       <section id="assignment-2">
         <div>2. Create data from API (OPTIONAL)</div>
+        <div>{JSON.stringify(departments, null, 2)}</div>
       </section>
     </div>
   );

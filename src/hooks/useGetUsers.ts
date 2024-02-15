@@ -23,7 +23,7 @@ const defaultDepartmentData = {
 };
 
 const departmentMapper = (departmentData: IDepartment, user: IUser) => {
-  const currentDepartmentData = {...departmentData};
+  const currentDepartmentData = { ...departmentData };
   // gender count
   const genderCount = currentDepartmentData[user.gender] + 1;
   // ageRange
@@ -43,12 +43,22 @@ const departmentMapper = (departmentData: IDepartment, user: IUser) => {
         user.age,
       ]
         .sort((a, b) => a - b)
-        .slice(0, 2)
+        .slice(0, 1)
+        .concat(
+          [
+            ...currentDepartmentData.ageRange
+              .split("-")
+              .map((age) => Number(age)),
+            user.age,
+          ]
+            .sort((a, b) => a - b)
+            .slice(-1)
+        )
         .join("-")
     : user.age.toString();
 
   // hair color count
-  const _hair = {...currentDepartmentData.hair};
+  const _hair = { ...currentDepartmentData.hair };
   if (_hair[user.hair.color]) {
     _hair[user.hair.color] += 1;
   } else {
@@ -61,8 +71,8 @@ const departmentMapper = (departmentData: IDepartment, user: IUser) => {
   };
 
   return {
-    male: user.gender === 'male' ? genderCount : departmentData.male,
-    female: user.gender === 'female' ? genderCount : departmentData.female,
+    male: user.gender === "male" ? genderCount : departmentData.male,
+    female: user.gender === "female" ? genderCount : departmentData.female,
     ageRange: _ageRange,
     hair: _hair,
     addressUser: _addressUser,
@@ -84,7 +94,7 @@ const useGetUsers = () => {
       return departmentData;
     }, {} as IDepartmentList);
   };
-  
+
   const departmentList = useMemo(() => {
     if (data?.users) {
       return calculateDepartmentList(data.users);

@@ -1,5 +1,5 @@
 import useAxios from "axios-hooks";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { IUser } from "~/types/IUser";
 
 export interface IDepartmentList {
@@ -27,6 +27,16 @@ const departmentMapper = (departmentData: IDepartment, user: IUser) => {
   // gender count
   const genderCount = currentDepartmentData[user.gender] + 1;
   // ageRange
+  /**
+   * LOGIC
+   * 1. get current ageRange from object that can be "", "21", "1-40"
+   * 2. split it by "-" so it should be [], ["21"], ["1", "40"]
+   * 3. change it into number by using Number(age) => [], [21], [1, 40]
+   * 4. add current user's age into array too => [35], [21, 35], [1, 40, 35]
+   * 5. sort number => [35], [21, 35], [1, 35, 40]
+   * 6. slice out index between 0 and 2 => [35], [21, 35], [1, 40]
+   * 7. join it with "-"
+   */
   const _ageRange = currentDepartmentData.ageRange
     ? [
         ...currentDepartmentData.ageRange.split("-").map((age) => Number(age)),
@@ -35,7 +45,7 @@ const departmentMapper = (departmentData: IDepartment, user: IUser) => {
         .sort((a, b) => a - b)
         .slice(0, 2)
         .join("-")
-    : user.age.toString(); // should be 1 or 2 length array
+    : user.age.toString();
 
   // hair color count
   const _hair = {...currentDepartmentData.hair};

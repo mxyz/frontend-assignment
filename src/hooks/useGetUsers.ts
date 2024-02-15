@@ -34,8 +34,9 @@ const departmentMapper = (departmentData: IDepartment, user: IUser) => {
    * 3. change it into number by using Number(age) => [], [21], [1, 40]
    * 4. add current user's age into array too => [35], [21, 35], [1, 40, 35]
    * 5. sort number => [35], [21, 35], [1, 35, 40]
-   * 6. slice out index between 0 and 2 => [35], [21, 35], [1, 40]
-   * 7. join it with "-"
+   * 6. slice out get only first index
+   * 7. concat with the same 5 steps above but get only last index
+   * 8. join it with "-"
    */
   const _ageRange = currentDepartmentData.ageRange
     ? [

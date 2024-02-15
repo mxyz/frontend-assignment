@@ -15,7 +15,6 @@ const SortingFruitAndVegetablesController = (
   } = props;
 
   const { departments } = useGetUsers();
-  console.log("Departments Data", departments);
   const [fruitAndVegetableList, setFruitAndVegetableList] = useState<IItem[]>(
     []
   );
@@ -24,6 +23,12 @@ const SortingFruitAndVegetablesController = (
   const [timeoutIds, setTimeoutIds] = useState<{
     [key: string]: NodeJS.Timeout;
   }>({});
+  // print department data once
+  useEffect(() => {
+    if (departments) {
+      console.log("Departments Data", departments);
+    }
+  }, [departments]);
 
   useEffect(() => {
     if (itemList) {
@@ -102,6 +107,9 @@ const SortingFruitAndVegetablesController = (
       </section>
       <section id="assignment-2">
         <div>2. Create data from API (OPTIONAL)</div>
+        <div className="italic text-red-500">
+          *Please see the easier reading list in Console
+        </div>
         <div>{JSON.stringify(departments, null, 2)}</div>
       </section>
     </div>
